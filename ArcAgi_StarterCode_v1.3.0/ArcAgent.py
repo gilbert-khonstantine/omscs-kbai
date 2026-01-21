@@ -37,7 +37,25 @@ class ArcAgent:
         This will just be an empty answer the size of the input data;
         delete it before you start adding your own predictions.
         '''
-        output = np.zeros_like(arc_problem.test_set().get_input_data().data())
-        predictions.append(output)
+        # output = np.zeros_like(arc_problem.test_set().get_input_data().data())
+        # predictions.append(output)
+        output_box_extract = self.extract_box(arc_problem.test_set().get_input_data().data())
+        predictions.append(output_box_extract)
 
         return predictions
+    
+    def extract_box(self, grid: np.ndarray):
+        min_row, max_row = len(grid), -1
+        min_col, max_col = len(grid[0]), -1
+        
+        for i in range(len(grid)):
+            for j in range(len(grid[i])):
+                if grid[i][j] != 0:
+                    min_row = min(min_row, i)
+                    max_row = max(max_row, i)
+                    min_col = min(min_col, j)
+                    max_col = max(max_col, j)
+        
+        if max_row == -1:
+            return np.zeros_like(grid)
+        return grid[min_row:max_row + 1, min_col:max_col + 1]
