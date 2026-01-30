@@ -12,6 +12,7 @@ def test():
     print(test_agent.solve(6, 3))
     print(test_agent.solve(7, 3))
     print(test_agent.solve(5, 5))
+    print(test_agent.solve(5, 6))
 
 if __name__ == "__main__":
     test()
